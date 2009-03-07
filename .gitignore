@@ -1,11 +1,7 @@
 .svn
-*.elc
-*.beam
 *.o
 *.so
 *~
 \#*
-CVS
-.cvsignore
 .DS_Store
 build
