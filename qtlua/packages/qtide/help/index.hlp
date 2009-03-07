@@ -1,0 +1,193 @@
+QtIde Package Reference Manual
+
+A package implementing 
+the QLua Integrated Development Environment (IDE),
+including the text editor, the object inspector,
+the help browser, and the lua graphical console.
+
+This package is not complete because
+it is under heavy development. 
+
+
+---+++ Functions
+#qtidefunctions
+
+---++++ qtide.editor([filename])
+
+Called without argument, this function returns a 
+text editor object of class [[#qluaeditor][=QLuaEditor=]].
+Otherwise it returns an editor for the file =filename=,
+possibly creating a new editor window.
+It pops a message box and returns =nil= if the 
+file =filename= does not exist or cannot be loaded.
+
+Open editors have object names of the form =editor=_n_ 
+and are accessible by name in the =qt= package.
+
+
+---++++ qtide.doeditor(qluaeditor)
+
+This function executes the chunk of Lua code
+corresponding to the text present in the editor =qluaeditor=.
+This is the function called by the IDE when one selects 
+the menu entry "_Load Lua File_" from an editor
+whose contents is not associated with a file
+or has been modified (otherwise one can use the standard
+Lua function =dofile=.)
+
+
+---++++ qtide.browser(url)
+
+Opens a browser on the URL =url=.
+
+
+---++++ qtide.inspector(...)
+
+Not yet implemented
+
+
+---++++ qtide.preferences()
+
+Not yet implemented
+
+
+---++++ qtide.start([style])
+#qtidestart
+
+Starts the QLua Integrated Development Environment (IDE)
+and ensure that the main window is visible.
+This function is called implicitely when program =qlua=
+is executed with option =-ide=.
+
+The optional argument =style= is a string 
+specifying the default IDE style.  
+When this argument is not specified
+the last used style is assumed.
+The recognized IDE styles are:
+
+   * ="sdi"= for an IDE with multiple main windows,
+   * ="mdi"= for an IDE with subwindows in the style of Windows,
+   * ="tab"= groups all editors into a single tabbed window.
+   * ="tab2"= groups all editors and the console into a single tabbed window.
+
+
+---++++ qtide.setup([style])
+#qtidesetup
+
+This function is called by [[#qtidestart][=qtide.start()=]]
+to setup the IDE style. You can call it directly if you
+want to organize QLua editors and windows without creating
+a graphic console.
+
+
+---+++ Qt Classes
+
+
+---++++ qt.QLuaIde
+#qluaide
+
+Object =qt.qLuaIde= represetns the global state of the IDE.
+This is the unique instance of class =qt.QLuaIde=
+which inherits [[../qt/index.hlp#qobject][=qt.QObject=]].
+
+Most of its capabilities are conveniently
+accessible using the functions defined
+by the [[#qtidefunctions][package =qtide=]].
+
+To be documented further...
+
+
+---+++++ qt.qLuaIde.editOnError
+
+When a Lua error occurs, this boolean property 
+specifies whether editors are automatically opened
+on the location of the error.
+This property is =false= by default
+Function [[#qtidestart][=qtide.start=]] sets it to =true=.
+
+
+---++++ qt.QLuaMainWindow
+#qluamainwindow
+
+This subclass of =QMainWindow=
+implements common functionalities shared by 
+all QLua main windows.
+
+To be documented...
+
+
+---++++ qt.QLuaEditor
+#qluaeditor
+
+This subclass of [[#qluamainwindow][=qt.QLuaMainWindow=]]
+implements the QLua editor windows using 
+an instance of [[#qluatextedit][=qt.QLuaTextEdit=]]
+as its main widget.
+
+To be documented...
+
+
+---++++ qt.QLuaSdiMain
+#qluasdimain
+
+This subclass of [[#qluamainwindow][=qt.QLuaMainWindow=]]
+implements the QLua console window.
+
+To be documented...
+
+
+
+---++++ qt.QLuaMdiMain
+#qluamdimain
+
+This subclass of [[#qluamainwindow][=qt.QLuaMainWindow=]]
+aggregates selected windows into a single main window
+to implement the IDE styles.
+
+To be documented...
+
+
+---++++ qt.QLuaTextEdit
+#qluatextedit
+
+Class =QLuaTextEdit= is a text editor widget derived 
+from =QPlainTextEdit= with support for line numbers, 
+find dialog, replace dialog, and printing.
+
+To be documented...
+
+
+---++++ qt.QLuaConsoleWidget
+#qluaconsolewidget
+
+Class =QLuaConsoleWidget= is a subclass of 
+[[#qluatextedit][=qt.QLuaTextEdit=]]
+that captures and display the lua output.
+
+To be documented...
+
+
+---+++ Qt Objects 
+
+
+---++++ qt.qLuaIde
+#qtqluaide
+
+Expression =qt.qLuaIde= refers to the unique instance
+of class [[#qluaide][=qt.QLuaIde=]].
+This instance is created when package =qtide= is loaded.
+
+
+---++++ qt.qLuaSdiMain
+
+Expression =qt.qLuaSdiMain= refers to the unique instance of 
+class [[#qluasdimain][=qt.QLuaSdiMain=]],
+created by function [[#qtidestart][=qtide.start()=]].
+
+
+---++++ qt.qLuaMdiMain
+
+Expression =qt.qLuaMdiMain= refers to the unique instance of 
+class [[#qluamdimain][=qt.QLuaMdiMain=]] created 
+by function [[#qtidesetup][=qtide.setup()=]].
+There is no such object when the IDE runs in SDI mode.
