@@ -1,3 +1,9 @@
+Read the install instructions on the torch5 site http://torch5.sourceforge.net/manual/Install-2.html
+
+Not an easy package to install, but nice once it is.
+
+
+
 Torch5 Library.
 ===============
 
